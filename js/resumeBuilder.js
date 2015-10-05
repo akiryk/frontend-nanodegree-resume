@@ -10,84 +10,141 @@ This is empty on purpose! Your code to build the resume will go here.
 * Maybe use d3.js
  */
 
-var bio = {
-  "name": "Adam Kiryk",
-  "role": "Front End Developer",
-  "contact": {
-    "location": "22 Fresh Pond Lane, Cambridge, MA",
-    "email": "adamkiryk@gmail.com"
-  },
-  "pictureURL": "images/fry.jpg",
-  "welcomeMsg": "Hi, I'm here!",
-  "skills": ["Design", "Programming", "Cooking", "HTML", "CSS", "javascript"]
-}
+var utils = {
 
-var formattedName = HTMLheaderName.replace("%data%", bio.name),
-    formattedRole = HTMLheaderRole.replace("%data%", bio.role),
-    picture = HTMLbioPic.replace("%data%", bio.pictureURL),
-    welcome = HTMLwelcomeMsg.replace("%data%", bio.welcomeMsg);
-    contact = HTMLcontactGeneric.replace("%contact%", "Address");
-    address = contact.replace("%data%", bio.contact.address);
+  serializeObject: function(obj){
 
-var $header = $("#header"),
-    $temp = $('<div></div>');
+    var data = category[value],
+        concatenatedData = "",
+        helper;
 
-// TODO: Determine if this is most efficient way
-$temp
-  .append(formattedName)
-  .append(formattedRole)
-  .append(address)
-  .append(picture)
-  .append(welcome)
-  .append(HTMLskillsStart);
+    for (prop in data){
+      helper = helper.replace("%data%", data[prop]);
+      concatenatedData += helper;
+    }
+    return concatenatedData;
 
-
-if (bio.skills.length){
-  var skills = bio.skills,
-      $listOfSkills = $temp.find("#skills"),
-      len = bio.skills.length,
-      skill;
-
-  for (var i=0; i<len; i++){
-    skill = HTMLskills.replace("%data%", skills[i]);
-    $listOfSkills.append(skill);
   }
+
 }
 
-$header.append($temp.html());
-$temp = null; //necessary?
+var bio = {
+    "name": "Adam Kiryk",
+    "role": "Front End Developer",
+    "contacts": {
+      "mobile": "617.661.6554",
+      "email": "adamkiryk@gmail.com",
+      "github": "github.com/akiryk/",
+      "twitter": "@akiryk",
+      "location": "22 Fresh Pond Lane, Cambridge, MA"
+    },
+    "welcomeMessage": "Hi, I'm here!",
+    "skills": [
+      "Design",
+      "CSS",
+      "User Experience",
+      "HTML",
+      "Wordpress",
+      "javascript"
+    ],
+    "biopic": "images/fry.jpg"
+  };
 
-var work = {
-  "jobs": [
+  bio.display = function(){
+
+    var $header = $("#header");
+
+    $header.prepend( utils.serializeObject(bio, "generalInfo", headerHelpers) );
+    $("#topContacts").append( utils.serializeObject(bio, "contact", contactInfoHelpers) );
+    //$header.append( getSkills() );
+
+
+    function getSkills(){
+
+      var skills = bio.skills,
+          concatenatedSkills = "",
+          helper;
+
+      for (skill in skills){
+        helper = HTMLskills;
+        helper = helper.replace("%data%", skills[skill]);
+        concatenatedSkills += helper;
+      }
+      return HTMLskillsStart + concatenatedSkills;
+
+    }
+  }
+
+}
+
+bio.display();
+
+var education = {
+  "schools": [
     {
-      "title": "UX Manager",
-      "employer": "NPR",
-      "years": "2013-2015",
-      "location": "Boston",
-      "desc": "On this job I Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut sapiente soluta laudantium quis, ratione iusto deserunt nihil explicabo fuga molestias! Voluptates distinctio numquam sit, ab velit explicabo, at soluta. Dolores."
+      "name": "Oberlin College",
+      "location": "Oberlin, OH",
+      "degree": "B.A",
+      "majors": [
+        "Environmental Studies",
+        "Biology"
+      ],
+      "dates": 1992,
+      "url": "http://www.oberlin.edu"
     },
     {
-      "title": "Product Designer",
-      "employer": "NPR",
-      "years": "2011-2013",
-      "location": "Boston",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi voluptatibus amet vel expedita recusandae adipisci, neque provident, quisquam, inventore deleniti alias fuga dolorem ipsa. Laudantium, minima! Voluptatum voluptate voluptatem ea?"
-    },
+      "name": "California College of Art",
+      "location": "San Francisco",
+      "degree": [
+        "Graphic Design"
+      ],
+      "majors": "Interaction Design",
+      "dates": 2001,
+      "url": "http://cca.edu"
+    }
+  ],
+  "onlineCourses": [
     {
-      "title": "Associate Creative Director",
-      "employer": "Arnold",
-      "years": "2010-2011",
-      "location": "Boston",
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure atque architecto a quos, ab sapiente ea laboriosam amet exercitationem numquam quam magni debitis, cum quasi dolor aut ut, repudiandae. Modi."
+      "title": "Frontend Nanodegree",
+      "school": "Udacity",
+      "date": 2016,
+      "url": "http://www.udacity.com"
     }
   ]
 }
 
-function displayWork(){
+var work = {
+  "jobs": [
+    {
+      "employer": "NPR",
+      "title": "UX Manager",
+      "location": "Boston",
+      "dates": "2013-2015",
+      "description": "On this job I Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut sapiente soluta laudantium quis, ratione iusto deserunt nihil explicabo fuga molestias! Voluptates distinctio numquam sit, ab velit explicabo, at soluta. Dolores."
+    },
+    {
+      "employer": "NPR",
+      "title": "Product Designer",
+      "location": "Boston",
+      "dates": "2011-2013",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi voluptatibus amet vel expedita recusandae adipisci, neque provident, quisquam, inventore deleniti alias fuga dolorem ipsa. Laudantium, minima! Voluptatum voluptate voluptatem ea?"
+    },
+    {
+      "employer": "Arnold",
+      "title": "Associate Creative Director",
+      "location": "Boston",
+      "dates": "2010-2011",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure atque architecto a quos, ab sapiente ea laboriosam amet exercitationem numquam quam magni debitis, cum quasi dolor aut ut, repudiandae. Modi."
+    }
+  ]
+}
+
+work.display = function(){
   var jobs = work.jobs,
     len = jobs.length;
 
   for (var i=0; i<len; i++){
+    utils.serializeObject(work, "jobs", worksHelpers);
     var employer = HTMLworkEmployer.replace("%data%", jobs[i].employer),
         title = HTMLworkTitle.replace("%data%", jobs[i].title),
         years = HTMLworkDates.replace("%data%", jobs[i].years),
@@ -104,27 +161,36 @@ function displayWork(){
     $("#workExperience").append($workStart);
   }
 }
-displayWork();
+
 
 var projects = {
   "projects": [
     {
       "title": "A blog",
       "dates": "2010",
-      "image": "images/197x148.gif",
-      "description": "This was a blog I made"
-    },
-    {
-      "title": "An App",
-      "dates": "2012",
-      "image": "images/197x148.gif",
-      "description": "This is an application"
+      "description": "This was a blog I made",
+      "image": [
+        "images/197x148.gif",
+        "images/197x148.gif"
+      ]
     },
     {
       "title": "A game",
-      "dates": "2014",
-      "image": "images/197x148.gif",
-      "description": "This is a fun game"
+      "dates": "2010",
+      "description": "This was a blog I made",
+      "image": [
+        "images/197x148.gif",
+        "images/197x148.gif"
+      ]
+    },
+    {
+      "title": "A website",
+      "dates": "2010",
+      "description": "This was a blog I made",
+      "image": [
+        "images/197x148.gif",
+        "images/197x148.gif"
+      ]
     }
   ]
 }
@@ -150,7 +216,7 @@ projects.display = function(){
   }
 }
 
-projects.display();
+// projects.display();
 
 
 var education = {
@@ -180,35 +246,28 @@ var education = {
   ]
 }
 
-var schools = education.schools;
-len = schools.length;
+education.display = function(){
+  var schools = education.schools;
+  len = schools.length;
 
-for (var i=0; i<len; i++){
-  var school = HTMLschoolName.replace("%data%", schools[i].school),
-      dates = HTMLschoolDates.replace("%data%", schools[i].years),
-      degree = HTMLschoolDegree.replace("%data%", schools[i].degree),
-      city = HTMLschoolLocation.replace("%data%", schools[i].location),
-      major = HTMLschoolDegree.replace("%data%", schools[i].major),
-      $schoolStart = $(HTMLschoolStart);
+  for (var i=0; i<len; i++){
+    var school = HTMLschoolName.replace("%data%", schools[i].school),
+        dates = HTMLschoolDates.replace("%data%", schools[i].years),
+        degree = HTMLschoolDegree.replace("%data%", schools[i].degree),
+        city = HTMLschoolLocation.replace("%data%", schools[i].location),
+        major = HTMLschoolDegree.replace("%data%", schools[i].major),
+        $schoolStart = $(HTMLschoolStart);
 
-  $schoolStart
-    .append(school)
-    .append(dates)
-    .append(degree)
-    .append(major)
-    .append(city);
+    $schoolStart
+      .append(school)
+      .append(dates)
+      .append(degree)
+      .append(major)
+      .append(city);
 
-  $("#education").append($schoolStart);
+    $("#education").append($schoolStart);
+  }
+
 }
 
-document.addEventListener('click', function(loc){
-  console.log(loc.clientX, loc.clientY);
-})
-
-$("#main").append(internationalizeButton);
-
-$("#mapDiv").append(googleMap);
-
-// $(document).click(function(loc) {
-//   console.log(loc.clientX, loc.clientY);
-// });
+$//("#mapDiv").append(googleMap);
