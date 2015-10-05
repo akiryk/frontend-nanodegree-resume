@@ -10,23 +10,10 @@ This is empty on purpose! Your code to build the resume will go here.
 * Maybe use d3.js
  */
 
-var utils = {
+var replaceData = function(helper, value){
+  return helper.replace("%data%", value);
+};
 
-  serializeObject: function(obj){
-
-    var data = category[value],
-        concatenatedData = "",
-        helper;
-
-    for (prop in data){
-      helper = helper.replace("%data%", data[prop]);
-      concatenatedData += helper;
-    }
-    return concatenatedData;
-
-  }
-
-}
 
 var bio = {
     "name": "Adam Kiryk",
@@ -34,7 +21,7 @@ var bio = {
     "contacts": {
       "mobile": "617.661.6554",
       "email": "adamkiryk@gmail.com",
-      "github": "github.com/akiryk/",
+      "github": "github.com/locationyk/",
       "twitter": "@akiryk",
       "location": "22 Fresh Pond Lane, Cambridge, MA"
     },
@@ -47,71 +34,57 @@ var bio = {
       "Wordpress",
       "javascript"
     ],
-    "biopic": "images/fry.jpg"
-  };
+    "biopic": "images/fry.jpg",
 
-  bio.display = function(){
+    display: function() {
 
     var $header = $("#header");
 
-    $header.prepend( utils.serializeObject(bio, "generalInfo", headerHelpers) );
-    $("#topContacts").append( utils.serializeObject(bio, "contact", contactInfoHelpers) );
-    //$header.append( getSkills() );
+    var formattedHeaderName = replaceData(HTMLheaderName, bio.name),
+        formattedHeaderRole = replaceData(HTMLheaderRole, bio.role);
 
+    // Add the two strings together, then prepend.
+    $header.prepend( formattedHeaderName + formattedHeaderRole);
 
-    function getSkills(){
+    var formattedMobile = replaceData(HTMLmobile, bio.contacts.mobile),
+        formattedEmail = replaceData(HTMLemail, bio.contacts.email),
+        formattedGithub = replaceData(HTMLgithub, bio.contacts.github),
+        formattedTwitter = replaceData(HTMLtwitter, bio.contacts.twitter),
+        formattedLocation = replaceData(HTMLlocation, bio.contacts.location);
 
-      var skills = bio.skills,
-          concatenatedSkills = "",
-          helper;
+    // Create a temp bit of html so as minimize DOM replaceDatas.
+    var $tempUL = $('<ul></ul>');
 
-      for (skill in skills){
-        helper = HTMLskills;
-        helper = helper.replace("%data%", skills[skill]);
-        concatenatedSkills += helper;
-      }
-      return HTMLskillsStart + concatenatedSkills;
+    $tempUL
+      .append(formattedMobile)
+      .append(formattedEmail)
+      .append(formattedGithub)
+      .append(formattedTwitter)
+      .append(formattedLocation);
 
+    $tempUL
+      .find('li')
+      .appendTo($('#topContacts'))
+      .clone()
+      .appendTo($('#footerContacts'));
+
+    $tempUL.remove(); // is this necessary?
+
+    var formattedImage = replaceData(HTMLbioPic, bio.biopic);
+
+    var len = bio.skills.length,
+        tmpSkills = '';
+
+    for (var i=0; i<len; i++){
+      tmpSkills += replaceData(HTMLskills, bio.skills[i]);
     }
+
+    // Add the three strings together, then append.
+    $header.append(formattedImage + HTMLskillsStart + tmpSkills);
+
   }
-
 }
 
-bio.display();
-
-var education = {
-  "schools": [
-    {
-      "name": "Oberlin College",
-      "location": "Oberlin, OH",
-      "degree": "B.A",
-      "majors": [
-        "Environmental Studies",
-        "Biology"
-      ],
-      "dates": 1992,
-      "url": "http://www.oberlin.edu"
-    },
-    {
-      "name": "California College of Art",
-      "location": "San Francisco",
-      "degree": [
-        "Graphic Design"
-      ],
-      "majors": "Interaction Design",
-      "dates": 2001,
-      "url": "http://cca.edu"
-    }
-  ],
-  "onlineCourses": [
-    {
-      "title": "Frontend Nanodegree",
-      "school": "Udacity",
-      "date": 2016,
-      "url": "http://www.udacity.com"
-    }
-  ]
-}
 
 var work = {
   "jobs": [
@@ -136,32 +109,29 @@ var work = {
       "dates": "2010-2011",
       "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure atque architecto a quos, ab sapiente ea laboriosam amet exercitationem numquam quam magni debitis, cum quasi dolor aut ut, repudiandae. Modi."
     }
-  ]
-}
+  ],
 
-work.display = function(){
-  var jobs = work.jobs,
-    len = jobs.length;
+  display: function(){
+    var jobs = work.jobs,
+      formattedEmployer,
+      formattedTitle,
+      formattedLocation,
+      formattedDates,
+      formattedDescription,
+      workArray = [],
+      $HTMLwork;
 
-  for (var i=0; i<len; i++){
-    utils.serializeObject(work, "jobs", worksHelpers);
-    var employer = HTMLworkEmployer.replace("%data%", jobs[i].employer),
-        title = HTMLworkTitle.replace("%data%", jobs[i].title),
-        years = HTMLworkDates.replace("%data%", jobs[i].years),
-        location = HTMLworkLocation.replace("%data%", jobs[i].location),
-        description = HTMLworkDescription.replace("%data%", jobs[i].desc),
-        $workStart = $(HTMLworkStart);
-
-    $workStart
-      .append(employer + title)
-      .append(years)
-      .append(location)
-      .append(description);
-
-    $("#workExperience").append($workStart);
+    for (var job in jobs) {
+      $("#workExperience").append(HTMLworkStart);
+      formattedEmployer = replaceData(HTMLworkEmployer, jobs[job].employer);
+      formattedTitle = replaceData(HTMLworkTitle, jobs[job].title);
+      formattedLocation = replaceData(HTMLworkLocation, jobs[job].location);
+      formattedDates = replaceData(HTMLworkDates, jobs[job].dates);
+      formattedDescription = replaceData(HTMLworkDescription, jobs[job].description);
+      $(".work-entry:last").append(formattedEmployer +formattedTitle + formattedLocation + formattedDates + formattedDescription);
+    }
   }
 }
-
 
 var projects = {
   "projects": [
@@ -192,82 +162,112 @@ var projects = {
         "images/197x148.gif"
       ]
     }
-  ]
-}
+  ],
+  display:function(){
+    var myProjects = projects.projects,
+        formattedTitle,
+        formattedDates,
+        formattedDescription;
 
-projects.display = function(){
-  var prjcts = projects.projects;
-  len = prjcts.length;
+    for (var project in myProjects) {
+      $("#projects").append(HTMLprojectStart);
+      formattedTitle = replaceData(HTMLprojectTitle, myProjects[project].title);
+      formattedDates = replaceData(HTMLprojectDates, myProjects[project].dates);
+      formattedDescription = replaceData(HTMLprojectDescription, myProjects[project].description);
+      formattedImages = getImages(myProjects[project].image);
+      $(".project-entry:last").append(formattedTitle + formattedDates + formattedDescription + formattedImages);
+    }
 
-  for (var i=0; i<len; i++){
-    var title = HTMLprojectTitle.replace("%data%", prjcts[i].title),
-        dates = HTMLprojectDates.replace("%data%", prjcts[i].dates),
-        desc = HTMLprojectDescription.replace("%data%", prjcts[i].description),
-        image = HTMLprojectImage.replace("%data%", prjcts[i].image),
-        $projectStart = $(HTMLprojectStart);
-
-    $projectStart
-      .append(title)
-      .append(dates)
-      .append(desc)
-      .append(image);
-
-    $("#projects").append($projectStart);
+    function getImages(arr){
+      var images = '';
+      for (var i=0; i<arr.length; i++){
+        images += replaceData(HTMLprojectImage, arr[i]);
+      }
+      return images;
+    }
   }
 }
 
-// projects.display();
 
 
 var education = {
+
   "schools": [
     {
-      "school": "Oberlin College",
+      "schoolName": "Oberlin College",
       "degree": "B.A",
       "years": "1987-1992",
       "major": "Environmental Studies",
       "location": "Oberlin, OH"
     },
     {
-      "school": "California College of Art",
+      "schoolName": "California College of Art",
       "degree": "Graphic Design",
       "years": "1998-2001",
       "major": "Interaction Design",
       "location": "San Francisco"
     }
   ],
+
   "online": [
     {
-      "title": "Frontend Nanodegree",
-      "school": "Udacity",
-      "dates": "ongoing",
+      "title": "Responsive Images",
+      "schoolName": "Udacity",
+      "dates": "September, 2015",
+      "url": "http://www.udacity.com"
+    },
+    {
+      "title": "Responsive Web Design Fundamentals",
+      "schoolName": "Udacity",
+      "dates": "September, 2015",
+      "url": "http://www.udacity.com"
+    },
+    {
+      "title": "How To Use Git And Github",
+      "schoolName": "Udacity",
+      "dates": "September, 2015",
       "url": "http://www.udacity.com"
     }
-  ]
-}
+  ],
 
-education.display = function(){
-  var schools = education.schools;
-  len = schools.length;
+  display: function(){
+    var schools = education.schools,
+        onlineSchools = education.online,
+        formattedSchool,
+        formattedDegree,
+        formattedYears,
+        formattedMajor,
+        formattedLocation;
 
-  for (var i=0; i<len; i++){
-    var school = HTMLschoolName.replace("%data%", schools[i].school),
-        dates = HTMLschoolDates.replace("%data%", schools[i].years),
-        degree = HTMLschoolDegree.replace("%data%", schools[i].degree),
-        city = HTMLschoolLocation.replace("%data%", schools[i].location),
-        major = HTMLschoolDegree.replace("%data%", schools[i].major),
-        $schoolStart = $(HTMLschoolStart);
+    for (var school in schools) {
+      $("#education").append(HTMLschoolStart);
+      formattedSchool = replaceData(HTMLschoolName, schools[school].schoolName);
+      formattedDegree = replaceData(HTMLschoolDegree, schools[school].degree);
+      formattedYears = replaceData(HTMLschoolDates, schools[school].years);
+      formattedLocation = replaceData(HTMLschoolLocation, schools[school].location);
+      formattedMajor = replaceData(HTMLschoolMajor, schools[school].major);
+      $(".education-entry:last").append(formattedSchool + formattedDegree + formattedYears + formattedLocation + formattedMajor);
+    }
 
-    $schoolStart
-      .append(school)
-      .append(dates)
-      .append(degree)
-      .append(major)
-      .append(city);
-
-    $("#education").append($schoolStart);
+    if (onlineSchools.length > 0){
+      $("#education").append(HTMLonlineClasses);
+      for (var school in onlineSchools){
+        $("#education").append(HTMLschoolStart);
+        var title = replaceData(HTMLonlineTitle, onlineSchools[school].title);
+        var schoolName = replaceData(HTMLonlineSchool, onlineSchools[school].schoolName);
+        var dates = replaceData(HTMLonlineDates, onlineSchools[school].dates);
+        var url = replaceData(HTMLonlineURL, onlineSchools[school].url);
+        $(".education-entry:last").append(title + schoolName + dates + url);
+      }
+    }
   }
-
 }
 
-$//("#mapDiv").append(googleMap);
+
+projects.display();
+education.display();
+bio.display();
+work.display();
+
+
+$("#mapDiv").append(googleMap);
