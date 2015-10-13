@@ -23,7 +23,9 @@ need to load. You'll see a lot of <link>s to CSS files for styles and
 
   <!-- Load the page styles. -->
   <link href="css/style.css" rel="stylesheet">
+  <link href="css/magnific.css" rel="stylesheet">
 
+<link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,400italic|Poppins:400,700' rel='stylesheet' type='text/css'>
   <!--
   jQuery is a common JavaScript library for reading and making changes to the
   Document Object Model (DOM). The DOM is a tree that contains information
@@ -39,6 +41,9 @@ need to load. You'll see a lot of <link>s to CSS files for styles and
   -->
   <script src="js/jQuery.js"></script>
 
+  <!-- Magnefic is a jquery plugin for creating image galleries and pop-ups -->
+  <script src="js/jQuery.magnific.min.js"></script>
+
   <!-- More on helper.js in the class -->
   <script src="js/helper.js"></script>
 
@@ -46,7 +51,7 @@ need to load. You'll see a lot of <link>s to CSS files for styles and
   Uncomment the <script> tag below when you're ready to add an interactive
   Google Map to your resume!
   -->
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
 
   <meta name="viewport" content="width=device-width">
 </head>
@@ -59,30 +64,57 @@ need to load. You'll see a lot of <link>s to CSS files for styles and
     resume below. You can pretty easily figure out what each section will
     display by looking at the id or at what's written between the <h2> tags.
     -->
-    <div id="header" class="center-content clear-fix">
+    <div class="header-wrap">
+      <div id="header" class="center-content clear-fix section-wrap">
 
-      <ul id="topContacts" class="flex-box"></ul>
+        <ul id="topContacts" class="flex-box"></ul>
 
+      </div>
     </div>
     <div style="clear: both;"></div>
-    <div id="workExperience" class="gray">
-      <h2>Work Experience</h2>
-    </div>
-    <div id="projects">
-      <h2>Projects</h2>
-    </div>
-    <div id="education" class="gray">
-      <h2>Education</h2>
-    </div>
-    <div id="mapDiv">
-      <h2>Where I've Lived and Worked</h2>
-    </div>
-    <div id="lets-connect" class="dark-gray">
-      <h2 class="orange center-text">Let's Connect</h2>
-        <ul id="footerContacts" class="flex-box">
-      </ul>
-    </div>
+    <section id="workExperience" class="section-wrap">
+      <h2 class="section-title">Work Experience</h2>
+    </section>
+    <section id="projects" class="section-wrap">
+      <h2 class="section-title">Projects</h2>
+    </section>
+    <section id="education" class="section-wrap">
+      <h2 class="section-title">Education</h2>
+    </section>
+    <section id="dataVis" class="section-wrap section-wrap--wide">
+      <h2 class="section-title">Stuff I like doing</h2>
+      <p>This D3 data visualization shows how my interests, abilities, and activities have varied over the years. Things in the upper right are things I do often and am skilled at; large circles are things that are more meaningful to me. Drag the slider to see how my abilities and interests have changed between 1990 and 2015...</p>
+      <div class="control-group">
+        <label class="label label-bold" for="slider">Year: <span id="year-label">2015</span></label>
+        <span class="label">1990</span>
+        <input id="slider" type="range" min="1990" max="2015" width="50" value="2015" list="steplist" step="5">
+        <span class="label">2015</span>
+      </div>
+
+      <datalist id="steplist">
+          <option>1990</option>
+          <option>1995</option>
+          <option>2000</option>
+          <option>2005</option>
+          <option>2010</option>
+          <option>2015</option>
+      </datalist>
+      <div id="svg-container"></div>
+    </section>
+
+    <h2 class="section-title--plain">Where I've Lived and Worked</h2>
+    <section id="mapDiv" class="section-wrap--wide">
+    </section>
+    <section id="lets-connect" class="dark-gray">
+      <div class="section-wrap">
+        <h2 class="section-title light-color">Let's Connect</h2>
+        <ul id="footerContacts" class="flex-box"></ul>
+      </div>
+    </section>
   </div>
+
+  <script src="js/d3.min.js"></script>
+  <script src='js/dataVis.js'></script>
 
   <!--
   The next line tells the browser where to download the JavaScript file you'll be
@@ -136,5 +168,6 @@ need to load. You'll see a lot of <link>s to CSS files for styles and
       document.getElementById('mapDiv').style.display = 'none';
     }
   </script>
+
 </body>
 </html>
