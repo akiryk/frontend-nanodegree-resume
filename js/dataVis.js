@@ -59,8 +59,7 @@ function bubbleChart( specs ) {
       if (error) {
         console.log(error);
       } else {
-        _data = [];
-        _data = data.slice();
+        _data = data;
         chart.render();
 
         if (!_toolTip){
