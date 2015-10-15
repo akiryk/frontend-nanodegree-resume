@@ -421,6 +421,17 @@ hr {
   opacity: 0;
 }
 
+#map {
+  display: block;
+  height: 100%;
+  margin: 0;
+}
+
+#mapDiv {
+  height: 500px;
+  margin: 1.25em auto;
+  width: 900px;
+}
 
 /* Media queries to handle various device widths */
 
@@ -430,6 +441,10 @@ hr {
   }
   .mfp-no-margins img.mfp-img {
     max-width: 100%;
+  }
+  #mapDiv {
+    height: 300px;
+    width: 90%;
   }
 }
 
@@ -449,18 +464,6 @@ hr {
   .section-title--plain {
     padding: 1em 1em 0 1em;
   }
-}
-
-#map {
-  display: block;
-  height: 100%;
-  margin: 0;
-}
-
-#mapDiv {
-  height: 500px;
-  margin-top: 1.25em;
-  width: 100%;
 }
 
 @media only screen and (min-width: 750px) {

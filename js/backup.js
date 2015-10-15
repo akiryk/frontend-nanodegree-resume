@@ -20,10 +20,10 @@ function bubbleChart( specs ) {
 
   chart.render = function() {
     if (!_svg) {
-      _svg = d3.select("#dataVis").append("svg")
-              .attr("id", "main-svg")
-              .attr("height", chartHeight)
-              .attr("width", chartWidth);
+      _svg = d3.select('#dataVis').append('svg')
+              .attr('id', 'main-svg')
+              .attr('height', chartHeight)
+              .attr('width', chartWidth);
 
       renderAxes(_svg);
 
@@ -47,35 +47,35 @@ function bubbleChart( specs ) {
   }
 
   function renderAxes(svg) {
-    var axesG = svg.append("g")
-          .attr("class", "axes");
+    var axesG = svg.append('g')
+          .attr('class', 'axes');
 
     var xAxis = d3.svg.axis()
       .ticks(0)
       .scale(chart.xScale.range([0, quadrantWidth()]))
-      .orient("bottom");
+      .orient('bottom');
 
     var yAxis = d3.svg.axis()
       .ticks(0)
       .scale(chart.yScale.range([quadrantHeight(), 0]))
-      .orient("left");
+      .orient('left');
 
     /*
      * Draw the x- and y-axes
      */
 
-    axesG.append("g")
-      .attr("class", "axis x-axis")
-      .attr("transform", function () {
-          return "translate(" + xStart() + "," + chartHeight/2 + ")";
+    axesG.append('g')
+      .attr('class', 'axis x-axis')
+      .attr('transform', function () {
+          return 'translate(' + xStart() + ',' + chartHeight/2 + ')';
       })
       .style({ fill: 'none', stroke: '#ccc'})
       .call(xAxis);
 
-    axesG.append("g")
-      .attr("class", "axis y-axis")
-      .attr("transform", function () {
-          return "translate(" + chartWidth/2 + "," + yEnd() + ")";
+    axesG.append('g')
+      .attr('class', 'axis y-axis')
+      .attr('transform', function () {
+          return 'translate(' + chartWidth/2 + ',' + yEnd() + ')';
       })
       .style( { fill: 'none', stroke: '#ccc'})
       .call(yAxis);
@@ -84,33 +84,33 @@ function bubbleChart( specs ) {
      * Draw the x- and y-axes
      */
 
-    axesG.append("text")
-      .attr("class", "x-label")
-      .attr("text-anchor", "end")
-      .attr("x", chartWidth)
-      .attr("y", chartHeight/2 + 4)
-      .text("High Skill");
+    axesG.append('text')
+      .attr('class', 'x-label')
+      .attr('text-anchor', 'end')
+      .attr('x', chartWidth)
+      .attr('y', chartHeight/2 + 4)
+      .text('High Skill');
 
-    axesG.append("text")
-      .attr("class", "x-label")
-      .attr("text-anchor", "start")
-      .attr("x", 0)
-      .attr("y", chartHeight/2 + 4)
-      .text("Low Skill");
+    axesG.append('text')
+      .attr('class', 'x-label')
+      .attr('text-anchor', 'start')
+      .attr('x', 0)
+      .attr('y', chartHeight/2 + 4)
+      .text('Low Skill');
 
-     axesG.append("text")
-      .attr("class", "y-label")
-      .attr("text-anchor", "middle")
-      .attr("x", chartWidth/2)
-      .attr("y", 50)
-      .text("High Frequency");
+     axesG.append('text')
+      .attr('class', 'y-label')
+      .attr('text-anchor', 'middle')
+      .attr('x', chartWidth/2)
+      .attr('y', 50)
+      .text('High Frequency');
 
-    axesG.append("text")
-      .attr("class", "y-label")
-      .attr("text-anchor", "middle")
-      .attr("x", chartWidth/2)
-      .attr("y", chartHeight - 45)
-      .text("Low Frequency");
+    axesG.append('text')
+      .attr('class', 'y-label')
+      .attr('text-anchor', 'middle')
+      .attr('x', chartWidth/2)
+      .attr('y', chartHeight - 45)
+      .text('Low Frequency');
   }
 
   function renderLegend(){
@@ -121,17 +121,17 @@ function bubbleChart( specs ) {
       var legendRectSize = 18;
       var legendSpacing = 4;
 
-      var lg = _svg.append("g");
+      var lg = _svg.append('g');
 
       // Make the legend background
-      lg.append("g")
+      lg.append('g')
         .append('rect')
-        .attr("class", "legend-bg")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("rx", 5)
-        .attr("width", 175)
-        .attr("height", 150);
+        .attr('class', 'legend-bg')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('rx', 5)
+        .attr('width', 175)
+        .attr('height', 150);
       }
 
       _legend = lg.selectAll('.legend')
@@ -169,25 +169,25 @@ function bubbleChart( specs ) {
   function defineBodyClip(svg) {
     var padding = 0;
 
-    svg.append("defs")
-            .append("clipPath")
-            .attr("id", "body-clip")
-            .append("rect")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", quadrantWidth() + 2 * padding)
-            .attr("height", quadrantHeight());
+    svg.append('defs')
+            .append('clipPath')
+            .attr('id', 'body-clip')
+            .append('rect')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', quadrantWidth() + 2 * padding)
+            .attr('height', quadrantHeight());
   }
 
   function renderBody(svg) {
     if (!_bodyG){
-      _bodyG = svg.append("g")
-        .attr("class", "body")
-        .attr("transform", "translate("
+      _bodyG = svg.append('g')
+        .attr('class', 'body')
+        .attr('transform', 'translate('
                 + xStart()
-                + ","
-                + yEnd() + ")")
-        .attr("clip-path", "url(#body-clip)");
+                + ','
+                + yEnd() + ')')
+        .attr('clip-path', 'url(#body-clip)');
     }
     renderBubbles();
   }
@@ -197,7 +197,7 @@ function bubbleChart( specs ) {
     _toolTip.transition()
       .style('opacity', 1.0);
     _toolTip.html(function(){
-      return "<h5 class='tooltip-heading'>" + d.activity + "</h5> <p class='tooltip-body'>" + d.description + "</p>";
+      return '<h5 class="tooltip-heading">' + d.activity + '</h5> <p class="tooltip-body">' + d.description + '</p>';
       })
       .style('background-color', clr)
       .style('left', (d3.event.pageX) + 'px')
@@ -208,12 +208,12 @@ function bubbleChart( specs ) {
   function renderBubbles() {
       //_rdx.range([0, 50]);
 
-      _bodyG.selectAll(".bubble")
+      _bodyG.selectAll('.bubble')
           .data(_data)
           .enter()
-          .append("circle")
-          .attr("class", "bubble")
-          .on("mouseover", showToolTip);
+          .append('circle')
+          .attr('class', 'bubble')
+          .on('mouseover', showToolTip);
 
       /* TODO:
        * I think there are two x and y scales
@@ -226,37 +226,37 @@ function bubbleChart( specs ) {
         .domain([0, 100])
         .range([75,chartWidth-2*chartMargin - 75]);
 
-        console.log("there " + chart.yScale.domain());
+        console.log('there ' + chart.yScale.domain());
 
        var yScale = d3.scale.linear()
         .clamp(true)
         .domain([0, 100])
         .range([defaults.height - 2*defaults.margin -75, 75]);
 
-        console.log("yscale range: " + yScale.range());
-        console.log("chart.yscale range: " + chart.yScale.range());
+        console.log('yscale range: ' + yScale.range());
+        console.log('chart.yscale range: ' + chart.yScale.range());
 
       var rScale = d3.scale.linear()
         .clamp(true)
         .domain([0,100])
         .range([0,75]);
 
-      _bodyG.selectAll(".bubble")
+      _bodyG.selectAll('.bubble')
           .data(_data)
-          .style("stroke", function (d, j) {
+          .style('stroke', function (d, j) {
               return _colors(j);
           })
-          .style("fill", function (d, j) {
+          .style('fill', function (d, j) {
               return _colors(j);
           })
           .transition()
-          .attr("cx", function (d) {
+          .attr('cx', function (d) {
               return xScale(d.skill); // <-D
           })
-          .attr("cy", function (d) {
+          .attr('cy', function (d) {
               return yScale(d.frequency); // <-E
           })
-          .attr("r", function (d) {
+          .attr('r', function (d) {
               return rScale(d.enjoyment); // <-F
           });
   }
@@ -321,12 +321,6 @@ function bubbleChart( specs ) {
         return chart;
     };
 
-    // chart.r = function (r) {
-    //     if (!arguments.length) return _rdx;
-    //     _rdx = r;
-    //     return chart;
-    // };
-
     chart.loadData = function(year){
 
       var file = 'data/bubbles-data-' + year + '.csv';
@@ -354,8 +348,6 @@ function bubbleChart( specs ) {
 }
 
 function udpateYearLabel(year){
-  console.log(year);
-  console.log(document.getElementById('year-label'));
   document.getElementById('year-label').textContent = year;
 }
 

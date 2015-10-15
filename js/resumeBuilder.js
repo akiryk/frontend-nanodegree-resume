@@ -233,13 +233,13 @@ projects.display = function(){
     var mapObj = {};
 
     for (var i=0; i<imgArray.length; i++){
-      mapObj["%dataImgSrc%"] = imgArray[i].imageLarge;
-      mapObj["%dataAlt%"] = imgArray[i].imageAlt;
-      mapObj["%data%"] = imgArray[i].imageSmall;
+      mapObj['%dataImgSrc%'] = imgArray[i].imageLarge;
+      mapObj['%dataAlt%'] = imgArray[i].imageAlt;
+      mapObj['%data%'] = imgArray[i].imageSmall;
       str = HTMLprojectImage.replace(/%dataImgSrc%|%dataAlt%|%data%/gi, function(matched){
         return mapObj[matched];
       });
-      images += str; //HTMLprojectImage.replace('%data%', imgArray[i]);
+      images += str;
     }
     images += '</div>'
     return images;
@@ -328,6 +328,14 @@ education.display();
 bio.display();
 work.display();
 
+
+/*
+ * dataVis
+ *
+ * The dataVis object handles rendering the d3 chart based
+ * on DOM events like load, resize, or changes to the range input.
+ */
+
 var dataVis = {
 
   chartSpecs: function(){
@@ -386,8 +394,8 @@ var dataVis = {
 $('#mapDiv').append(googleMap);
 
 /*
- * Prevent resize event from firing so many times that it
- * affects performance
+ * Prevent resize event from firing too many times and
+ * affecting performance
  */
 var debounce = function(fn, delay){
   var timeout;
