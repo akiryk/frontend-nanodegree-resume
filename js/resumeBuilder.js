@@ -29,7 +29,7 @@ var bio = {
       "Wordpress",
       "javascript"
     ],
-    "biopic": "images/pic-alt2.jpg",
+    "biopic": "images/pic-alt2.jpg"
 }
 
 bio.display = function() {
@@ -106,7 +106,7 @@ var work = {
       "dates": "2010-2011",
       "description": "Conceived and designed digital work for clients such as Progressive Insurance, OceanSpray, and Carnival Cruise Lines — including web sites, emails, landing pages, and online advertisements — at Arnold Worldwide"
     }
-  ],
+  ]
 }
 
 work.display = function(){
@@ -284,7 +284,7 @@ var education = {
       "dates": "September, 2015",
       "url": "http://www.udacity.com"
     }
-  ],
+  ]
 }
 
 education.display = function(){
