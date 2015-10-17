@@ -41,6 +41,7 @@ var HTMLschoolDegree = ' — %data%</a>';
 var HTMLschoolDates = '<div class="date-text">%data%</div>';
 var HTMLschoolLocation = '<div class="location-text">%data%</div>';
 var HTMLschoolMajor = '<em class="major">Major: %data%</em>';
+var HTMLschoolURL = '<a href="#" class="online-class">%data%</a>';
 
 var HTMLonlineClasses = '<h3>Online Classes</h3>';
 var HTMLonlineTitle = '<a href="#" class="title">%data%';
@@ -48,48 +49,7 @@ var HTMLonlineSchool = ' - %data%</a>';
 var HTMLonlineDates = '<div class="date-text">%data%</div>';
 var HTMLonlineURL = '<a href="#" class="online-class">%data%</a>';
 
-var internationalizeButton = '<button>Internationalize</button>';
 var googleMap = '<div id="map"></div>';
-
-/*
-The International Name challenge in Lesson 2 where you'll create a function that will need this helper code to run. Don't delete! It hooks up your code to the button you'll be appending.
-*/
-$(document).ready(function() {
-  // The internationalize challenge:
-  $('#main').append(internationalizeButton);
-
-  $('button').click(function() {
-    var name = $('#name').html();
-    var iName = inName(name) || function(){};
-    $('#name').html(iName);
-  });
-});
-
-function inName(name){
-  var nameArr = name.trim().split(' ');
-  var newFirst = nameArr[0].charAt(0).toUpperCase() + nameArr[0].slice(1).toLowerCase();
-  var newLast = nameArr[1].toUpperCase();
-  return newFirst + ' ' + newLast;
-}
-
-/*
-The next few lines about clicks are for the Collecting Click Locations quiz in Lesson 2.
-*/
-clickLocations = [];
-
-function logClicks(x,y) {
-  clickLocations.push(
-    {
-      x: x,
-      y: y
-    }
-  );
-  console.log('x location: ' + x + '; y location: ' + y);
-}
-
-$(document).click(function(loc) {
-  logClicks(loc.pageX, loc.pageY);
-});
 
 /*
 This is the fun part. Here's where we generate the custom Google Map for the website.

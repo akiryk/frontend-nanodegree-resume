@@ -125,7 +125,8 @@ hr {
  */
 
 .header-wrap {
-  background-color: #333;
+  background: #111;
+  background-image: repeating-linear-gradient(45deg, transparent 0, transparent 20px, hsla(0, 0%, 100%, 0.05), 0, hsla(0,0%,100%,0.05) 40px);
 }
 
 #skills-h3 {
@@ -134,9 +135,11 @@ hr {
 }
 
 .welcome-message {
-  font-style: italic;
+  display: block;
   font-size: 18px;
-  color: #f3f3f3;
+  color: rgba(255,255,255,0.75);
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 1em;
 }
 
 #name {
@@ -292,11 +295,10 @@ hr {
 .biopic {
   float: left;
   padding: 0 32px 32px 0;
-  display: none;
 }
 
 #lets-connect {
-  min-height: 400px;
+  min-height: 200px;
 }
 
 .major {
@@ -437,7 +439,7 @@ hr {
 
 @media only screen and (max-width:900px) {
   .biopic {
-    width: 175px;
+    width: 15vw;
   }
   .mfp-no-margins img.mfp-img {
     max-width: 100%;
@@ -449,13 +451,6 @@ hr {
 }
 
 @media only screen and (max-width: 750px) {
-
-  .biopic {
-    width: 150px;
-  }
-  .welcome-message {
-    display: none;
-  }
 
   .section-wrap {
     padding: 1em;

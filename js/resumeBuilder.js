@@ -20,7 +20,7 @@ var bio = {
       "twitter": "@akiryk",
       "location": "22 Fresh Pond Lane, Cambridge, MA"
     },
-    "welcomeMessage": "Hi, I'm here!",
+    "welcomeMessage": "Hi, I'm a front-end developer with UX and design chops.",
     "skills": [
       "Design",
       "CSS",
@@ -40,7 +40,8 @@ bio.display = function() {
   // Add the two strings together, then prepend.
   $header.prepend( formattedHeaderName + formattedHeaderRole);
 
-  var formattedMobile = HTMLmobile.replace('%data%', bio.contacts.mobile),
+  var formattedWelcomeMsg = HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage),
+      formattedMobile = HTMLmobile.replace('%data%', bio.contacts.mobile),
       formattedEmail = HTMLemail.replace('%data%', bio.contacts.email),
       formattedGithub = HTMLgithub.replace('%data%', bio.contacts.github),
       formattedTwitter = HTMLtwitter.replace('%data%', bio.contacts.twitter),
@@ -76,7 +77,7 @@ bio.display = function() {
   }
 
   // Add the three strings together, then append.
-  $header.append(formattedImage + HTMLskillsStart);
+  $header.append(formattedImage + formattedWelcomeMsg + HTMLskillsStart);
 
   $("#skills").append(tmpSkills);
 
@@ -97,14 +98,14 @@ var work = {
       "title": "Product Designer",
       "location": "Boston",
       "dates": "2011-2013",
-      "description": "Provided key insight and direction — especially at early stages - to the user experience of a responsive web-site redesign for NPR member stations. Improved the usability of our content management system for editors by researching users and implementing new designs.Designed a flexible homepage template that balanced the requirements of diverse member stations with NPR’s news-oriented objectives"
+      "description": "Provided key insight and direction — especially at early stages - to the user experience of a responsive web-site redesign for NPR member stations. Improved the usability of our content management system for editors by researching users and implementing new designs.Designed a flexible homepage template that balanced the requirements of diverse member stations with NPR’s news-oriented objectives."
     },
     {
       "employer": "Arnold",
       "title": "Associate Creative Director",
       "location": "Boston",
       "dates": "2010-2011",
-      "description": "Conceived and designed digital work for clients such as Progressive Insurance, OceanSpray, and Carnival Cruise Lines — including web sites, emails, landing pages, and online advertisements — at Arnold Worldwide"
+      "description": "Conceived and designed digital work for clients such as Progressive Insurance, OceanSpray, and Carnival Cruise Lines — including web sites, emails, landing pages, and online advertisements — at Arnold Worldwide."
     }
   ]
 }
@@ -251,37 +252,39 @@ var education = {
   "schools": [
     {
       "name": "Oberlin College",
+      "location": "Oberlin, OH",
       "degree": "B.A",
-      "years": "1987-1992",
-      "major": "Environmental Studies",
-      "location": "Oberlin, OH"
+      "majors": ["Environmental Studies", "Biology"],
+      "dates": "1987-1992",
+      "url": "http://www.oberlin.edu"
     },
     {
       "name": "California College of Art",
+      "location": "San Francisco",
       "degree": "Graphic Design",
-      "years": "1998-2001",
-      "major": "Interaction Design",
-      "location": "San Francisco"
+      "majors": ["Graphic Design"],
+      "dates": "1998-2001",
+      "url": "http://www.cca.edu"
     }
   ],
 
   "online": [
     {
       "title": "Responsive Images",
-      "name": "Udacity",
-      "dates": "September, 2015",
+      "school": "Udacity",
+      "date": "September, 2015",
       "url": "http://www.udacity.com"
     },
     {
       "title": "Responsive Web Design Fundamentals",
-      "name": "Udacity",
-      "dates": "September, 2015",
+      "school": "Udacity",
+      "date": "September, 2015",
       "url": "http://www.udacity.com"
     },
     {
       "title": "How To Use Git And Github",
-      "name": "Udacity",
-      "dates": "September, 2015",
+      "school": "Udacity",
+      "date": "September, 2015",
       "url": "http://www.udacity.com"
     }
   ]
@@ -303,10 +306,13 @@ education.display = function(){
       $education.append(HTMLschoolStart);
       formattedSchool = HTMLschoolName.replace('%data%', schools[i].name);
       formattedDegree = HTMLschoolDegree.replace('%data%', schools[i].degree);
-      formattedYears = HTMLschoolDates.replace('%data%', schools[i].years);
+      formattedYears = HTMLschoolDates.replace('%data%', schools[i].dates);
       formattedLocation = HTMLschoolLocation.replace('%data%', schools[i].location);
-      formattedMajor = HTMLschoolMajor.replace('%data%', schools[i].major);
-      $('.education-entry:last').append(formattedSchool + formattedDegree  + formattedLocation + formattedYears + formattedMajor);
+      formattedMajor = HTMLschoolMajor.replace('%data%', schools[i].majors.join(', '));
+      formattedURL = HTMLschoolURL.replace(/\#|%data%/gi, function(match){
+        return schools[i].url;
+      });
+      $('.education-entry:last').append(formattedSchool + formattedDegree  + formattedLocation + formattedYears + formattedMajor + formattedURL);
     }
   }
 
@@ -316,7 +322,7 @@ education.display = function(){
       $('#education').append(HTMLschoolStart);
       var title = HTMLonlineTitle.replace('%data%', onlineSchools[school].title);
       var schoolName = HTMLonlineSchool.replace('%data%', onlineSchools[school].name);
-      var dates = HTMLonlineDates.replace('%data%', onlineSchools[school].dates);
+      var dates = HTMLonlineDates.replace('%data%', onlineSchools[school].date);
       var url = HTMLonlineURL.replace('%data%', onlineSchools[school].url);
       $('.education-entry:last').append(title + schoolName + dates + url);
     }
@@ -350,7 +356,7 @@ var dataVis = {
   chart: null,
 
   loadData: function(year){
-    this.chart.loadData(year);
+    this.chart.loadJSONData(year);
     return this.chart;
   },
 
@@ -370,7 +376,7 @@ var dataVis = {
           .clamp(true)
           .domain([0,100])
           .range([5,75]))
-        .loadData(year);
+        .loadJSONData(year);
   },
 
   fitBounds: function(){

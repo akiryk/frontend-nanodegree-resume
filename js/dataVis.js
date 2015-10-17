@@ -1,3 +1,160 @@
+var jsonData =  {
+  "year2015": [
+    {
+        "activity": "Running/Fitness",
+        "skill": 80,
+        "frequency": 100,
+        "enjoyment": 90,
+        "description": "Running, biking, going to the gym, that sort of thing."
+    },
+    {
+      "activity": "Front-end Dev",
+        "skill": 75,
+        "frequency": 90,
+        "enjoyment": 95,
+        "description": "I'm taking this course, but already have a good deal of experience."
+    },
+    {
+      "activity": "Travel/Adventure",
+        "skill": 80,
+        "frequency": 20,
+        "enjoyment": 99,
+        "description": "I love traveling, hiking, exploring new places."
+    },
+    {
+      "activity": "Backend Dev",
+        "skill": 20,
+        "frequency": 19,
+        "enjoyment": 60,
+        "description": "Some php; some node."
+    },
+    {
+      "activity": "Guitar",
+        "skill": 25,
+        "frequency": 20,
+        "enjoyment": 15,
+        "description": "I've played since I was a kid and have gone through phases of doing it more or less."
+    },
+    {
+      "activity": "Cooking",
+        "skill": 60,
+        "frequency": 81,
+        "enjoyment": 55,
+        "description": "I like cooking but only if I feel like I have the time. Which I often don't!"
+    },
+    {
+      "activity": "Rock Climbing",
+        "skill": 50,
+        "frequency": 50,
+        "enjoyment": 75,
+        "description": "Mainly in the rock gym."
+    }
+  ],
+  "year2010": [
+    {
+        "activity": "Running/Fitness",
+        "skill": 60,
+        "frequency": 80,
+        "enjoyment": 70,
+        "description": "Running, biking, going to the gym, that sort of thing."
+    },
+    {
+      "activity": "Front-end Dev",
+        "skill": 45,
+        "frequency": 65,
+        "enjoyment": 75,
+        "description": "I'm taking this course, but already have a good deal of experience."
+    },
+    {
+      "activity": "Travel/Adventure",
+        "skill": 60,
+        "frequency": 10,
+        "enjoyment": 79,
+        "description": "I love traveling, hiking, exploring new places."
+    },
+    {
+      "activity": "Backend Dev",
+        "skill": 10,
+        "frequency": 10,
+        "enjoyment": 40,
+        "description": "Just learning some php at this point."
+    },
+    {
+      "activity": "Guitar",
+        "skill": 30,
+        "frequency": 65,
+        "enjoyment": 70,
+        "description": "I've played since I was a kid and have gone through phases of doing it more or less."
+    },
+    {
+      "activity": "Cooking",
+        "skill": 50,
+        "frequency": 55,
+        "enjoyment": 45,
+        "description": "I like cooking but only if I feel like I have the time. Which I often don't!"
+    },
+    {
+      "activity": "Rock Climbing",
+        "skill": 40,
+        "frequency": 40,
+        "enjoyment": 65,
+        "description": "Mainly in the rock gym."
+    }
+  ],
+  "year2005": [
+    {
+        "activity": "Running/Fitness",
+        "skill": 60,
+        "frequency": 70,
+        "enjoyment": 70,
+        "description": "Running, biking, going to the gym, that sort of thing."
+    },
+    {
+      "activity": "Front-end Dev",
+        "skill": 35,
+        "frequency": 45,
+        "enjoyment": 65,
+        "description": "I'm taking this course, but already have a good deal of experience."
+    },
+    {
+      "activity": "Travel/Adventure",
+        "skill": 60,
+        "frequency": 10,
+        "enjoyment": 89,
+        "description": "I love traveling, hiking, exploring new places."
+    },
+    {
+      "activity": "Backend Dev",
+        "skill": 10,
+        "frequency": 10,
+        "enjoyment": 30,
+        "description": "Just learning some php at this point."
+    },
+    {
+      "activity": "Guitar",
+        "skill": 35,
+        "frequency": 77,
+        "enjoyment": 85,
+        "description": "I've played since I was a kid and have gone through phases of doing it more or less."
+    },
+    {
+      "activity": "Cooking",
+        "skill": 35,
+        "frequency": 35,
+        "enjoyment": 25,
+        "description": "I like cooking but only if I feel like I have the time. Which I often don't!"
+    },
+    {
+      "activity": "Rock Climbing",
+        "skill": 20,
+        "frequency": 20,
+        "enjoyment": 35,
+        "description": "Mainly in the rock gym."
+    }
+  ]
+}
+
+
 function bubbleChart( specs ) {
 
   var chart = {};
@@ -47,13 +204,28 @@ function bubbleChart( specs ) {
 
   };
 
-  chart.loadData = function(year){
+  chart.loadJSONData = function(year){
 
     // Cache year in case we need to re-render the chart
     // based on a screen resize event.
     _currentYear = year === undefined ? '2015': year;
+    _data = jsonData['year' + _currentYear];
+    chart.render();
 
-    var file = 'data/bubbles-data-' + _currentYear + '.csv';
+    if (!_toolTip){
+      _makeToolTip();
+    }
+
+    return chart;
+
+  };
+
+  chart.loadData = function(year){
+    // Cache year in case we need to re-render the chart
+    // based on a screen resize event.
+    _currentYear = year === undefined ? '2015': year;
+
+    //var file = 'data/bubbles-data-' + _currentYear + '.csv';
     d3.csv( file , function(error, data) {
 
       if (error) {
@@ -287,7 +459,8 @@ function bubbleChart( specs ) {
 
 
   function _renderBubbles() {
-
+    console.log("at render bubbles");
+    console.log(_data);
     _bodyG.selectAll(".bubble")
         .data(_data)
         .enter()
@@ -305,6 +478,8 @@ function bubbleChart( specs ) {
         })
         .transition()
         .attr("cx", function (d) {
+            console.log(d);
+            console.log(d.skill);
             return _xScale(d.skill); // <-D
         })
         .attr("cy", function (d) {
