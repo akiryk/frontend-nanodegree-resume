@@ -205,7 +205,6 @@ function bubbleChart( specs ) {
   };
 
   chart.loadJSONData = function(year){
-
     // Cache year in case we need to re-render the chart
     // based on a screen resize event.
     _currentYear = year === undefined ? '2015': year;
@@ -224,8 +223,7 @@ function bubbleChart( specs ) {
     // Cache year in case we need to re-render the chart
     // based on a screen resize event.
     _currentYear = year === undefined ? '2015': year;
-
-    //var file = 'data/bubbles-data-' + _currentYear + '.csv';
+    var file = 'data/bubbles-data-' + _currentYear + '.csv';
     d3.csv( file , function(error, data) {
 
       if (error) {
@@ -459,8 +457,6 @@ function bubbleChart( specs ) {
 
 
   function _renderBubbles() {
-    console.log("at render bubbles");
-    console.log(_data);
     _bodyG.selectAll(".bubble")
         .data(_data)
         .enter()
@@ -478,8 +474,6 @@ function bubbleChart( specs ) {
         })
         .transition()
         .attr("cx", function (d) {
-            console.log(d);
-            console.log(d.skill);
             return _xScale(d.skill); // <-D
         })
         .attr("cy", function (d) {
